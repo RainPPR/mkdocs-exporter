@@ -4,14 +4,17 @@ import yaml
 import sys
 import os
 import shutil
+from pathlib import Path
 
 import mlib_download
 import mlib_server as server
 from mlib_load import *
 
+script_dir = Path(__file__).parent.resolve()
+
 def generate_config():
     info = load_json('info.json')
-    template = info['project'] | parse_yaml('exporter/template.yml') | parse_yaml('docs/assets/extra.yml')
+    template = info['project'] | parse_yaml(os.path.join(script_dir, "template.yml")) | parse_yaml('docs/assets/extra.yml')
     template['extra'] = { 'giscus': info['giscus'] }
     template['nav'] = get_site_nav()
     with open('mkdocs.yml', 'w', encoding='utf-8') as file:
@@ -120,7 +123,7 @@ def process_top_level(info, sub_nav, baseurl):
         "sections": relative_sections
     })
 
-    shutil.copy('exporter/template.tex', 'cache/main.tex')
+    shutil.copy(os.path.join(script_dir, "template.tex"), 'cache/main.tex')
     compile_latex('cache/main.tex', 'cache/' + info['filename'])
     
     shutil.rmtree('cache/toc.json')
