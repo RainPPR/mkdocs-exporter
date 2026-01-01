@@ -29,22 +29,37 @@ RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     # 既然我们要极致空间，这里不留 lists
     rm -rf /var/lib/apt/lists/*
 
-# 4. TeXLive & 系统依赖层 (最重的一层)
+# 4. TeXLive & 系统依赖层 (硬核优化版)
 RUN --mount=type=cache,target=/var/cache/apt,sharing=locked \
     --mount=type=cache,target=/var/lib/apt/lists,sharing=locked \
     apt-get update $APT_OPTS && \
-    eatmydata apt-get install -y --no-install-recommends $APT_OPTS \
+    # A. 安装包，但严禁运行触发器 (节约大量时间)
+    eatmydata apt-get install -y --no-install-recommends \
+        -o Dpkg::Options::="--no-triggers" \
+        $APT_OPTS \
         git curl perl make ca-certificates fontconfig \
         fonts-noto-cjk fonts-noto-cjk-extra \
         texlive latexmk texlive-latex-base texlive-latex-recommended \
         texlive-latex-extra texlive-luatex texlive-fonts-recommended \
-        # texlive-fonts-extra \
-        texlive-lang-cjk texlive-lang-chinese \
+        texlive-fonts-extra texlive-lang-cjk texlive-lang-chinese \
         texlive-lang-japanese texlive-plain-generic texlive-science && \
-    # --- 硬核清理开始 ---
-    # 1. 清理 apt 缓存 (archives)
+    # B. 手动执行触发器 (显式加速 + 逻辑精简)
+    # 1. ldconfig (libc-bin 触发器，极快)
+    ldconfig && \
+    # 2. 建立文件索引 (eatmydata 加速 IO)
+    eatmydata mktexlsr && \
+    # 3. 建立字体映射 (eatmydata 加速 IO)
+    eatmydata updmap-sys && \
+    # 4. 编译格式 (核心优化点：只编译需要的引擎)
+    # 这里的 trick 是：不运行 --all，而是手动指定常用的。
+    # 如果你需要完全的兼容性，依然可以用 --all，但加上 eatmydata
+    # eatmydata fmtutil-sys --byfmt xelatex && \
+    # eatmydata fmtutil-sys --byfmt pdflatex && \
+    eatmydata fmtutil-sys --byfmt lualatex && \
+    # 注意：如果你确定需要日文纵书支持，取消下面这行的注释 (编译极慢)
+    # eatmydata fmtutil-sys --byfmt uplatex && \
+    # C. 清理
     apt-get clean && \
-    # 2. 删除 TeXLive 可能残留的文档和日志
     rm -rf /usr/share/doc/* /usr/share/man/* /usr/share/info/* && \
     rm -rf /var/lib/apt/lists/* /var/log/* /tmp/*
 
