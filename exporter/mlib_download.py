@@ -14,7 +14,7 @@ def pdf_worker(worker_id: int, task_queue: queue.Queue):
 
         processed_count = 0
         while True:
-            if processed_count > 0 and processed_count % 50 == 0:
+            if processed_count > 0 and processed_count % 100 == 0:
                 context.close()
                 context = browser.new_context()
                 
@@ -30,7 +30,7 @@ def pdf_worker(worker_id: int, task_queue: queue.Queue):
             if not os.path.exists(target_dir):
                 os.makedirs(target_dir, exist_ok=True)
             
-            print(f'... {url}')
+            print(f'[Worker-{worker_id}] 正在下载 {final_path} 从 {url}')
     
             page = context.new_page()
             page.goto(url, wait_until="load")
@@ -70,7 +70,7 @@ def pdf_worker(worker_id: int, task_queue: queue.Queue):
 def add_task(task):
     task_list.append(task)
 
-def start_tasks(max_threads: int = 2):
+def start_tasks(max_threads: int = int(os.getenv('MAX_THREADS', 2))):
     print(f"--- 任务开始: 共 {len(task_list)} 个 URL，最大并发数 {max_threads} ---")
     task_queue = queue.Queue()
     for item in task_list:
