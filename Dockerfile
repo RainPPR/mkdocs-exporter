@@ -1,22 +1,12 @@
-FROM python:3.12-slim
+FROM python:3.12
 WORKDIR /app
 RUN python -m pip install --upgrade pip --no-cache-dir
 COPY requirements.txt .
 RUN pip install --no-cache-dir -r requirements.txt && \
-    playwright install --with-deps chromium && \
-    apt-get install -y --no-install-recommends \
-    git make perl fontconfig \
-    latexmk \
-    texlive-xetex \
-    texlive-lang-chinese \
-    texlive-lang-japanese \
-    texlive-latex-extra \
-    texlive-plain-generic \
-    fonts-noto-cjk \
-    fonts-noto-cjk-extra && \
+    playwright install --with-deps \
+    apt-get install -y fontconfig texlive-full fonts-noto-cjk fonts-noto-cjk-extra && \
     rm -rf /var/lib/apt/lists/*
 COPY exporter/ /app/exporter/
 COPY export-pdf.sh /usr/local/bin/export-pdf
 RUN chmod +x /usr/local/bin/export-pdf
 RUN fc-cache -fv
-RUN latexmk --version && luahbtex --credits && python --version && git --version
