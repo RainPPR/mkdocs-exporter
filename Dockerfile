@@ -6,7 +6,7 @@ RUN pip install --no-cache-dir playwright
 RUN apt-get update && \
     playwright install-deps chromium && \
     apt-get install -y --no-install-recommends \
-        git curl perl \
+        git curl perl make \
         ca-certificates \
         fontconfig \
         fonts-noto-cjk \
@@ -15,11 +15,13 @@ RUN apt-get update && \
         texlive-latex-base \
         texlive-latex-recommended \
         texlive-latex-extra \
+        texlive-luatex \
         texlive-fonts-recommended \
         # texlive-fonts-extra \
+        latex-cjk-all \
+        texlive-lang-cjk \
         texlive-plain-generic \
-        texlive-luatex \
-        texlive-lang-chinese && \
+        texlive-science && \
     rm -rf /var/lib/apt/lists/* && \
     fc-cache -fv
 RUN playwright install chromium
