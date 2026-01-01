@@ -11,7 +11,7 @@ from mlib_load import *
 
 def generate_config():
     info = load_json('info.json')
-    template = info['project'] | parse_yaml('expoter/template.yml') | parse_yaml('docs/assets/extra.yml')
+    template = info['project'] | parse_yaml('exporter/template.yml') | parse_yaml('docs/assets/extra.yml')
     template['extra'] = { 'giscus': info['giscus'] }
     template['nav'] = get_site_nav()
     with open('mkdocs.yml', 'w', encoding='utf-8') as file:
@@ -120,7 +120,7 @@ def process_top_level(info, sub_nav, baseurl):
         "sections": relative_sections
     })
 
-    shutil.copy('expoter/template.tex', 'cache/main.tex')
+    shutil.copy('exporter/template.tex', 'cache/main.tex')
     compile_latex('cache/main.tex', 'cache/' + info['filename'])
     
     shutil.rmtree('cache/toc.json')

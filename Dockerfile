@@ -16,6 +16,6 @@ RUN pip install --no-cache-dir -r requirements.txt && \
     fonts-noto-cjk \
     fonts-noto-cjk-extra && \
     rm -rf /var/lib/apt/lists/*
-COPY expoter/ /app/expoter/
+COPY exporter/ /app/exporter/
 RUN fc-cache -fv
 RUN latexmk --version && lualatex --version && python --version
