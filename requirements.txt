@@ -5,4 +5,3 @@ mkdocs
 mkdocs-glightbox
 mkdocs-minify-plugin
 pymdown-extensions
-poethepoet
