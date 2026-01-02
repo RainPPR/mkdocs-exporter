@@ -29,7 +29,7 @@ RUN uv pip install playwright && \
     fc-cache -fv && rm -rf /var/lib/apt/lists/*
 
 RUN apt-get update && \
-    eatmydata apt-get install -y --no-install-recommends \
+    eatmydata apt-get install -y --no-install-recommends -o Dpkg::Options::="--no-triggers" \
         git make fontconfig texlive latexmk texlive-luatex \
         texlive-latex-base texlive-latex-extra texlive-latex-recommended \
         texlive-pictures texlive-plain-generic texlive-fonts-recommended \
