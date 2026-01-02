@@ -53,3 +53,11 @@ jobs:
           subject-name: ${{ env.REGISTRY }}/${{ env.IMAGE_NAME}}
           subject-digest: ${{ steps.push.outputs.digest }}
           push-to-registry: true
+      - uses: quartx-analytics/ghcr-cleaner@v1
+        with:
+            owner-type: user
+            token: ${{ secrets.GITHUB_TOKEN }}
+            package-name: mkdocs-exporter
+            delete-untagged: true
+            keep-at-most: 5
+            skip-tags: v*,latest,buildcache
