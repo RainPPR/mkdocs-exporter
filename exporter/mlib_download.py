@@ -70,7 +70,7 @@ def pdf_worker(worker_id: int, task_queue: queue.Queue):
 def add_task(task):
     task_list.append(task)
 
-def start_tasks(max_threads: int = int(os.getenv('MAX_THREADS', 2))):
+def start_tasks(max_threads: int = int(os.getenv('MAX_THREADS', 4))):
     print(f"--- 任务开始: 共 {len(task_list)} 个 URL，最大并发数 {max_threads} ---")
     task_queue = queue.Queue()
     for item in task_list:

@@ -8,7 +8,6 @@ echo ">>> Container Workdir: $(pwd)"
 # 将当前工作目录加入 Git 安全列表
 # 这里的 $(pwd) 会解析为 /__w/.../...
 git config --global --add safe.directory "$(pwd)"
-git config --global init.defaultBranch main
 
 # 调用 Python 脚本
 # "$@" 表示将传递给 shell 脚本的所有参数透传给 python 脚本

@@ -7,7 +7,7 @@ ENV DEBIAN_FRONTEND=noninteractive \
     PLAYWRIGHT_BROWSERS_PATH=/ms-playwright \
     UV_SYSTEM_PYTHON=1 \
     # 强制 uv 并发下载，压榨带宽
-    UV_CONCURRENT_DOWNLOADS=16 \
+    UV_CONCURRENT_DOWNLOADS=8 \
     LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     # 增加重试，因为没有缓存兜底，网络必须稳
@@ -35,11 +35,10 @@ RUN apt-get update $APT_OPTS && \
 RUN apt-get update $APT_OPTS && \
     # 禁止 Trigger
     eatmydata apt-get install -y --no-install-recommends -o Dpkg::Options::="--no-triggers" $APT_OPTS \
-        git curl perl make ca-certificates fontconfig \
-        texlive latexmk texlive-latex-base texlive-latex-recommended \
-        texlive-latex-extra texlive-luatex texlive-fonts-recommended \
-        fonts-noto-cjk texlive-lang-cjk texlive-lang-chinese \
-        texlive-lang-japanese texlive-plain-generic texlive-science && \
+        git make fontconfig \
+        texlive latexmk texlive-latex-base texlive-luatex \
+        texlive-latex-recommended texlive-fonts-recommended \
+        texlive-lang-cjk texlive-lang-chinese texlive-lang-japanese && \
     # 手动 Trigger
     ldconfig && \
     eatmydata mktexlsr && \
@@ -86,7 +85,7 @@ RUN uv pip install -r requirements.txt && \
 
 # 7. 应用代码
 COPY exporter/ /app/exporter/
-COPY export-pdf.sh /usr/local/bin/export-pdf
-RUN chmod +x /usr/local/bin/export-pdf
+COPY mkdocs-export.sh /usr/local/bin/mkdocs-export
+RUN chmod +x /usr/local/bin/mkdocs-export
 
-CMD ["/usr/local/bin/export-pdf"]
+CMD ["/usr/local/bin/mkdocs-export"]
