@@ -36,8 +36,8 @@ RUN apt-get update $APT_OPTS && \
     # 禁止 Trigger
     eatmydata apt-get install -y --no-install-recommends -o Dpkg::Options::="--no-triggers" $APT_OPTS \
         git make fontconfig \
-        texlive latexmk texlive-latex-base texlive-luatex \
-        texlive-latex-recommended texlive-fonts-recommended \
+        texlive latexmk texlive-luatex texlive-latex-base \
+        texlive-latex-extra texlive-latex-recommended texlive-fonts-recommended \
         texlive-lang-cjk texlive-lang-chinese texlive-lang-japanese && \
     # 手动 Trigger
     ldconfig && \
