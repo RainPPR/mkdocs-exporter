@@ -1,30 +1,16 @@
-\batchmode % 1. 开启批处理模式，减少控制台刷屏
+\batchmode
 
-% =================================================================
-% 强力静音补丁 (放在 \documentclass 之前)
-% =================================================================
 \makeatletter
-% 2. 核心：屏蔽 graphicx 和 luatex.def 的图片加载日志
-%    这解决了 "File: ... Graphic file" 和 "Requested size" 的刷屏
 \def\Gin@log#1{} 
-
-% 3. 核心：屏蔽所有宏包的 Info 信息
-%    这解决了 "Package luatex.def Info: ..."
 \long\def\PackageInfo#1#2{}
-
-% 4. 屏蔽 pdfpages 宏包特定的繁琐日志
 \def\AM@Message#1{}
 \makeatother
 
-% 6. 底层排版引擎静音 (Bad Box)
 \hbadness=10000
 \vbadness=10000
 \hfuzz=\maxdimen
 \vfuzz=\maxdimen
 
-% 7. 加载 silence 包屏蔽剩余的 Warnings
-\RequirePackage{silence}
-\WarningsOff* 
 % =================================================================
 
 \documentclass[a4paper,12pt,twoside,openright]{ctexbook}
@@ -35,7 +21,7 @@
 \geometry{
     a4paper,
     top=2.54cm, bottom=2.54cm,
-    left=1.91cm, right=1.27cm, % 内侧留白大一点用于装订
+    left=3.18cm, right=2.54cm, % 内侧留白大一点用于装订
 }
 
 \usepackage{pdfpages} % 核心：插入PDF
