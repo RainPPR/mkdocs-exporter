@@ -85,9 +85,9 @@
 % 页眉页脚
 \pagestyle{fancy}
 \fancyhf{}
-\fancyhead[LE,RO]{\small\thepage}
-\fancyhead[RE]{\small\itshape\leftmark}
-\fancyhead[LO]{\small\itshape\rightmark}
+\fancyhead[LO]{\small\itshape\leftmark}
+\fancyhead[RE]{\small\itshape\rightmark}
+\fancyfoot[LO,RE]{\small\thepage}
 \renewcommand{\headrulewidth}{0pt} % 去掉页眉横线，更极简
 
 % ====================
@@ -195,14 +195,14 @@
     {\fontsize{40}{48}\selectfont \bfseries \makeatletter \@title \makeatother \par}
     \vspace{1cm}
     {\huge \itshape \color{gray} \makeatletter \@subtitle \makeatother \par}
-    \vspace{2cm}
-    {\Large \makeatletter \@author \makeatother \par}
+    \vspace{3cm}
+    {\large \makeatletter \@author \makeatother \par}
     
     \vfill
 
     {\large \itshape \color{darkblue} \makeatletter \@date \makeatother \par}
-    \vspace{2cm}
-    {\Large \bookpublishing \par}
+    \vspace{1cm}
+    {\large \bookpublishing \par}
 \end{titlepage}
 \addcontentsline{toc}{chapter}{封面}
 
