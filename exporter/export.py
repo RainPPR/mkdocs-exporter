@@ -92,7 +92,6 @@ def process_top_level(info, sub_nav, baseurl):
 
     mlib_download.start_tasks()
 
-    # 路径处理：将 cache/toc.json 中的路径改为相对于 cache/ 的路径
     relative_sections = []
     for section in sections:
         rel_sec = { "title": section["title"], "sections": [] }
@@ -119,7 +118,6 @@ def process_top_level(info, sub_nav, baseurl):
 def generate_config():
     info = load_json('info.json')
     template = info['project'] | parse_yaml(os.path.join(script_dir, "template.yml")) | parse_yaml('docs/assets/extra.yml')
-    template['extra'] = { 'giscus': info['giscus'] }
     template['nav'] = get_site_nav()
     with open('mkdocs.yml', 'w', encoding='utf-8') as file:
         yaml.dump(template, file, allow_unicode=True, indent=4, sort_keys=False)
