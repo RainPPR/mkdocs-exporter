@@ -9,3 +9,5 @@ echo ">>> Container Workdir: $(pwd)"
 # "$@" 表示将传递给 shell 脚本的所有参数透传给 python 脚本
 # 使用 exec 可以让 python 进程替换当前 shell 进程，接收信号更准确
 exec uv run /app/exporter/export.py "$@"
+
+echo ">>> Successful"
